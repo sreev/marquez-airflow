@@ -11,6 +11,8 @@
 # limitations under the License.
 
 from marquez_airflow import log
+from marquez_airflow.extractors import StepMetadata
+
 
 class PostgresExtractor(BaseExtractor):
 

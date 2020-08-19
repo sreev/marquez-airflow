@@ -14,16 +14,15 @@ import json
 import os
 import time
 
-from marquez_client import MarquezClient
-
 import airflow.models
+from pendulum import Pendulum
+
+from marquez_airflow.constants import NOMINAL_TIME_FORMAT
+from marquez_airflow.utils import JobIdMapping, get_location
+from marquez_client import MarquezClient
 from marquez_airflow import log
 from marquez_airflow.extractors import (Dataset, Source, StepMetadata,
                                         get_extractors)
-from marquez_airflow.utils import JobIdMapping, get_location
-from pendulum import Pendulum
-
-_NOMINAL_TIME_FORMAT = "%Y-%m-%dT%H:%M:%SZ"
 
 
 class DAG(airflow.models.DAG):
@@ -337,6 +336,6 @@ class DAG(airflow.models.DAG):
     @staticmethod
     def _to_iso_8601(dt):
         if isinstance(dt, Pendulum):
-            return dt.format(_NOMINAL_TIME_FORMAT)
+            return dt.format(NOMINAL_TIME_FORMAT)
         else:
-            return dt.strftime(_NOMINAL_TIME_FORMAT)
+            return dt.strftime(NOMINAL_TIME_FORMAT)

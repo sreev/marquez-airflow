@@ -20,7 +20,7 @@ def we_module_env():
 @pytest.fixture(scope="function")
 def dagbag():
     os.environ['AIRFLOW__CORE__SQL_ALCHEMY_CONN'] = 'sqlite://'
-    os.environ['MARQUEZ_NAMESPACE'] = 'test-marquez'
+    os.environ['MARQUEZ_NAMESPACE'] = 'food_delivery'
 
     from airflow import settings
     import airflow.utils.db as db_utils

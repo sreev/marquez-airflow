@@ -13,18 +13,18 @@ import airflow.jobs  # noqa: F401
        return_value=get_mock_marquez_client())
 @patch('marquez_airflow.utils.execute_git',
        side_effect=execute_git_mock)
-def test_dummy_dag(git_mock, client_mock, dagbag):
-    execute_dag(dagbag.dags['test_dummy_dag'], '2020-01-08T01:00:00Z')
+def test_postgres(git_mock, client_mock, dagbag):
+    execute_dag(dagbag.dags['orders_popular_day_of_week'], '2020-01-08T01:00:00Z')
     assert_marquez_calls(
-        client_mock(), namespace='test-marquez', owner='default_owner',
+        client_mock(), namespace='food_delivery', owner='datascience',
         jobs=[(
-            'test_dummy_dag.test_dummy',
+            'orders_popular_day_of_week.insert',
             'BATCH',
             'https://github.com/MarquezProject/marquez-airflow/blob/abcd1234/'
-            'tests/test_dags/test_dummy_dag.py', [], [],
+            'tests/dags/test_postgres_dag.py', [], [],
             {'sql': False},
             'Test dummy DAG')],
-        job_runs=[('test_dummy_dag.test_dummy',
+        job_runs=[('orders_popular_day_of_week.insert',
                    '2020-01-08T01:00:00Z', '2020-01-08T01:02:00Z',
                    {"external_trigger": False})],
         run_ids=['00000000-0000-0000-0000-000000000000'])
